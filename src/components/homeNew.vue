@@ -1,10 +1,18 @@
 <script setup>
-
+import HomePanel from "@/components/homePanel.vue"
+import {ref, onMounted} from 'vue'
+import { getNewApi } from "@/apis/home"
+const newList = ref([])
+const getNewList = async () =>{
+  const res = await getNewApi()
+  console.log(res);
+  newList.value = res.data.result
+}
+onMounted(() => getNewList())
 </script>
 
 <template>
-  <div></div>
-  <!-- 下面是插槽主体内容模版
+<HomePanel title="新鲜好物" subTitle="新鲜出炉 品质靠谱"> <div>
   <ul class="goods-list">
     <li v-for="item in newList" :key="item.id">
       <RouterLink to="/">
@@ -14,7 +22,8 @@
       </RouterLink>
     </li>
   </ul>
-  -->
+ </div></HomePanel>
+ 
 </template>
 
 
