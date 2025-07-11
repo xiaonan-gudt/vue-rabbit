@@ -5,3 +5,6 @@ export const getBannerDataApi = ()=>{
 export const getNewApi = ()=>{
     return request.get('/home/new')
 }
+export const getHotApi = ()=>{
+    return request.get('home/hot')
+}
