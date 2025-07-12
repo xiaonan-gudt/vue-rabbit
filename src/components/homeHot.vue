@@ -1,5 +1,5 @@
 <script setup>
-import HomePanel from '@/components/homePanel.vue'
+import HomePanel from './homePanel.vue'
 import { getHotApi } from '@/apis/home'
 import { ref } from 'vue'
 const hotList = ref([])

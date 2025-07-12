@@ -8,3 +8,6 @@ export const getNewApi = ()=>{
 export const getHotApi = ()=>{
     return request.get('home/hot')
 }
+export const getGoodsApi = ()=>{
+    return request.get('/home/goods')
+}
