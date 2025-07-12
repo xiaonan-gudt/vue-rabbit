@@ -11,20 +11,24 @@ const router = createRouter({
     {
       path:'/',
       component:Layout,
+      name:'layout',
       redirect:'/home',
       children:[
         {
           path:'/home',
+          name:'home',
           component:Home
         },
         {
-          path:'/category',
+          path:'/category/:id',
+          name:'category',
           component:Category,
         }
       ]
     },
     {
       path:'/login',
+      name:'login',
       component:Login
     }
   ],
