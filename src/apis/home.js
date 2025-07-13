@@ -1,6 +1,12 @@
 import request from "@/utils/request";
-export const getBannerDataApi = ()=>{
-    return request.get('home/banner')
+export const getBannerDataApi = (distributionSite = 1)=>{
+    return request.get('home/banner',
+        {
+            params:{
+                distributionSite
+            }
+        }
+    )
 }
 export const getNewApi = ()=>{
     return request.get('/home/new')
