@@ -1,25 +1,9 @@
 <script setup>
-import {getTopCategoryDataApi} from '@/apis/category'
-import {getBannerDataApi} from '@/apis/home'
-import {ref, onMounted} from "vue"
-import { useRoute } from 'vue-router'
-const route = useRoute()
-const topCategoryData = ref({})
-const bannerList = ref([])
-const getTopCategoryData = async (id)=>{
-    const res = await getTopCategoryDataApi(id)
-    console.log(res);
-    topCategoryData.value = res.data.result
-}
-const getBannerData = async ( distributionSite = 1)=>{
-    const res = await getBannerDataApi(distributionSite)
-    console.log(res);
-    bannerList.value = res.data.result
-}
-onMounted(()=>{
-    getTopCategoryData(route.params.id)
-    getBannerData(2)
-    })
+import { useBanner} from './composables/useBanner'
+import {useCategory} from './composables/useCategory'
+import GoodsItem from "@/components/goodsItem.vue"
+const {bannerList} = useBanner()
+const {topCategoryData} = useCategory()
 </script>
 
 <template>
@@ -38,11 +22,31 @@ onMounted(()=>{
       <div class="home-banner">
       <el-carousel height="500px">
         <el-carousel-item v-for="item in bannerList" :key="item.id">
-          <img :src="item.imgUrl" alt="">
+          <img v-img-lazy="item.imgUrl" alt="">
         </el-carousel-item>
       </el-carousel>
       </div>
     </div>
+    <!-- 分类详情 -->
+  <div class="sub-list">
+     <h3>全部分类</h3>
+   <ul>
+     <li v-for="i in topCategoryData.children" :key="i.id">
+       <RouterLink to="/">
+          <img v-img-lazy="i.picture" />
+          <p>{{ i.name }}</p>
+       </RouterLink>
+      </li>
+   </ul>
+  </div>
+<div class="ref-goods" v-for="item in topCategoryData.children" :key="item.id">
+  <div class="head">
+    <h3>- {{ item.name }}-</h3>
+  </div>
+  <div class="body">
+    <GoodsItem v-for="good in item.goods" :good="good" :key="good.id" />
+  </div>
+</div>
   </div>
 </template>
 
