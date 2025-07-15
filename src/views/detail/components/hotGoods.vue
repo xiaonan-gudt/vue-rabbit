@@ -1,6 +1,6 @@
 <script setup>
 import {getHotGoodsApi} from "@/apis/detail"
-import{ref} from 'vue'
+import{computed, ref} from 'vue'
 import { useRoute } from "vue-router"
 const route = useRoute()
 const hotGoodsList = ref([])
@@ -9,6 +9,11 @@ const props = defineProps({
     type:Number,
     default:1
   }
+})
+const title = computed(()=>{
+  if(props.type === 1)
+  return '24小时热榜'
+  else return '周热榜'
 })
 const getHotGoodsData = async ()=>{
   const res = await getHotGoodsApi({
@@ -24,7 +29,7 @@ const getHotGoodsData = async ()=>{
 
 <template>
   <div class="goods-hot">
-    <h3>周日榜单</h3>
+    <h3>{{title}}</h3>
     <!-- 商品区块 -->
     <RouterLink :to="`/detail/${item.id}`" class="goods-item" v-for="item in hotGoodsList" :key="item.id">
       <img :src="item.picture" alt="" />
