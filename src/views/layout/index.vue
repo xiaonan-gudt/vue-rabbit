@@ -1,4 +1,20 @@
+<script setup>
+import layoutHeader from "@/components/layoutHeader.vue"
+import layoutNav from "@/components/layoutNav.vue";
+import layoutFooter from "@/components/layoutFooter.vue"
+import layoutFloat from "@/components/layoutFloat.vue"
+import { useCategoryStore } from "@/stores/category";
+import { onMounted } from "vue";
+const store = useCategoryStore()
+onMounted(()=>{
+  return  store.getCategoryMsg()
+})
+</script>
+
 <template>
-    我是layout页
+   <layoutFloat />
+    <layoutNav />
+    <layoutHeader />
     <router-view />
+    <layoutFooter />
 </template>
