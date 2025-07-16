@@ -1,9 +1,10 @@
 <script setup>
 import{ ref} from 'vue'
-import {loginApi} from '@/apis/user'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { useRouter } from 'vue-router'
+import {useUserStore} from '@/stores/user'
+const store = useUserStore()
 // > 用户名：不能为空，字段名为 account
 // > 密码：不能为空且为6-14个字符，字段名为 password
 // > 同意协议：必选，字段名为 agree
@@ -36,8 +37,7 @@ const loginFn = ()=>{
     formRef.value.validate( async (valid)=>{
     console.log(valid);
     if(valid){
-        const res = await loginApi({account, password})
-        console.log(res);
+       await store.getUserInfo({account, password})
         ElMessage({type:'success', message:'登录成功'})
         router.replace({ path: '/' })
     }
