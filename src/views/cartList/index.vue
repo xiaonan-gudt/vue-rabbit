@@ -3,6 +3,12 @@ import { useCartStore } from "@/stores/cart"
 
 const store = useCartStore()
 const cartList = store.cartList
+const changeCheck = (selected, i)=> {
+    store.singeCheck(selected, i)
+}
+const changeAll = (selected) =>{
+    store.multiCheck(selected)
+}
 </script>
 
 <template>
@@ -13,7 +19,7 @@ const cartList = store.cartList
           <thead>
             <tr>
               <th width="120">
-                <el-checkbox/>
+                <el-checkbox :model-value="store.isAll" @change="changeAll"/>
               </th>
               <th width="400">商品信息</th>
               <th width="220">单价</th>
@@ -26,7 +32,7 @@ const cartList = store.cartList
           <tbody>
             <tr v-for="i in cartList" :key="i.id">
               <td>
-                <el-checkbox />
+                <el-checkbox :model-value="i.selected" @change="(selected)=>changeCheck(selected,i)" />
               </td>
               <td>
                 <div class="goods">
@@ -73,8 +79,8 @@ const cartList = store.cartList
       <!-- 操作栏 -->
       <div class="action">
         <div class="batch">
-          共 10 件商品，已选择 2 件，商品合计：
-          <span class="red">¥ 200.00 </span>
+          共{{store.allCount}}件商品，已选择{{store.selCount}}件，商品合计：
+          <span class="red">¥{{store.selPrice}}</span>
         </div>
         <div class="total">
           <el-button size="large" type="primary" >下单结算</el-button>

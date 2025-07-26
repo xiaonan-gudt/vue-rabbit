@@ -29,6 +29,10 @@ const router = createRouter({
         {
           path:'/detail/:id',
           component:Detail,
+        },
+        {
+          path:'/cartlist',
+          component:CartList
         }
       ]
     },
@@ -36,10 +40,6 @@ const router = createRouter({
       path:'/login',
       component:Login
     },
-    {
-      path:'/cartlist',
-      component:CartList
-    }
   ],
   scrollBehavior(){
     return {
