@@ -55,9 +55,9 @@ const changeAll = (selected) =>{
               </td>
               <td class="tc">
                 <p>
-                  <el-popconfirm title="确认删除吗?" confirm-button-text="确认" cancel-button-text="取消" @confirm="delCart(i)">
+                  <el-popconfirm title="确认删除吗?"  confirm-button-text="确认" cancel-button-text="取消" @confirm="store.delCart(i.skuId)">
                     <template #reference>
-                      <a href="javascript:;">删除</a>
+                      <a  href="javascript:;">删除</a>
                     </template>
                   </el-popconfirm>
                 </p>
@@ -80,7 +80,7 @@ const changeAll = (selected) =>{
       <div class="action">
         <div class="batch">
           共{{store.allCount}}件商品，已选择{{store.selCount}}件，商品合计：
-          <span class="red">¥{{store.selPrice}}</span>
+          <span class="red">¥{{store.selPrice.toFixed(2)}}</span>
         </div>
         <div class="total">
           <el-button size="large" type="primary" >下单结算</el-button>

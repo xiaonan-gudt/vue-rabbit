@@ -1,16 +1,40 @@
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { computed,  ref } from "vue";
+import { useUserStore } from "./user";
+import { getCartListApi, addCartApi, delCartApi } from "@/apis/cart";
 export const useCartStore = defineStore('cart',()=>{
     const cartList = ref([])
-    const addCart = (goods) =>{
-        const item = cartList.value.find(item => item.skuId === goods.skuId)
-        if(item){
-            item.count += goods.count
+    const userStore = useUserStore()
+    const isLogin = computed(()=>userStore.userInfo.token)
+    const addCart = async(goods)=>{
+        const {skuId, count} = goods
+        if(isLogin.value){
+        await addCartApi(skuId,count)
+        getCartList()
         }
-        else cartList.value.push(goods)
+        else{
+            const item = cartList.value.find(item => item.skuId === goods.skuId)
+            if(item){
+                item.count += goods.count
+            }
+            else cartList.value.push(goods)
+        }
     }
-    const delCart = (id) => {
-        cartList.value = cartList.value.filter(item => item.skuId !== id)
+
+    const delCart = async (skuId) => {
+        if(isLogin.value){
+            await delCartApi([skuId])
+            getCartList()
+        }
+        else cartList.value = cartList.value.filter(item => item.skuId !== skuId)
+    }
+    const clearCart = () => {
+    cartList.value = []
+    }
+    const getCartList = async()=>{
+        const res = await getCartListApi()
+        console.log(res);
+        cartList.value = res.data.result        
     }
     const singeCheck = (selected, i) =>{
         const item = cartList.value.find(item => item.skuId === i.skuId)
@@ -37,7 +61,7 @@ export const useCartStore = defineStore('cart',()=>{
      const selPrice = computed(()=>{
          return selCartList.value.reduce((total, item) => total + item.price * item.count, 0)
      })
-    return {cartList, isAll, multiCheck, addCart, delCart, allCount, allPrice, singeCheck, selCount, selPrice}
+    return {cartList, isAll, multiCheck, addCart, delCart, allCount, allPrice, singeCheck, selCount, selPrice, clearCart, getCartList}
 },
 {
     persist:true
