@@ -1,4 +1,4 @@
 import request from "@/utils/request";
-export const getOrderData = () =>{
-    return request.get('/member/order/{id}')
+export const getOrderDataApi = (id) =>{
+    return request.get(`/member/order/${id}`)
 }
