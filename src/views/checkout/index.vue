@@ -2,7 +2,7 @@
 import {getCheckoutInfoApi, postCheckoutInfoApi} from '@/apis/checkout'
 import { useRouter } from 'vue-router'
 import { onMounted, ref} from 'vue';
-
+import {useCartStore} from '@/stores/cart'
 const checkInfo = ref({})  // 订单对象
 const curAddress = ref({})
 const getCheckoutData = async ()=>{
@@ -24,6 +24,7 @@ const changeAddress = () => {
 }
 const orderId = ref(null)
 const router = useRouter()
+const store = useCartStore()
 const postCheckoutInfo = async () =>{
     const res = await postCheckoutInfoApi({
         deliveryTimeType: 1,
@@ -47,7 +48,9 @@ const postCheckoutInfo = async () =>{
         query: {
             id:orderId.value
         }
-    }) 
+    })
+    //重新获取购物车的渲染
+    store.getCartList() 
 }
 </script>
 
